@@ -1,63 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <title>Homework 5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Тестовая страница</title>
+    <style>
+      li:nth-child(even) {
+        background-color: #cccccc; /* пример цвета */
+      }
+    </style>
   </head>
-
   <body>
-    <p class="dropdown">Привет :)</p>
-    <div class="dropdown">
-      <button
-        class="btn btn-secondary dropdown-toggle"
-        type="button"
-        id="dropdownMenuButton"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        Dropdown button
-      </button>
-      <div class="menu dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-      </div>
-    </div>
+    <p class="super_element">Привет</p>
+
+    <img src="https://placeimg.com/50/50/animals" alt="" />
+    <img src="https://placeimg.com/50/50/arch" alt="" />
+    <img src="https://placeimg.com/50/50/nature" alt="" />
+    <img src="https://placeimg.com/50/50/people" alt="" />
+    <img src="https://placeimg.com/50/50/tech" alt="" />
+    <img src="https://placeimg.com/50/50/tech/grayscale" alt="" />
+    <img src="https://placeimg.com/50/50/tech/sepia" alt="" />
+
+    <br />
+
+    <button>Кнопка</button>
+    <button class="super_element">Кнопка с классом btn</button>
+    <button>Кнопка</button>
+
+    <br />
+
+    <textarea></textarea>
+
+    <br />
+
+    <ul>
+      <li>
+        <button>Кнопка 1</button>
+      </li>
+      <li>
+        <button>Кнопка 2</button>
+      </li>
+      <li>
+        <button>Кнопка 3</button>
+      </li>
+      <li>
+        <button>Кнопка 4</button>
+      </li>
+    </ul>
 
     <script>
       "use strict";
 
-      // 1. Ко всем элементам, имеющим класс "dropdown-item" добавить еще один класс "super-dropdown".
-      document.querySelectorAll(".dropdown-item").forEach((item) => {
-        item.classList.add("super-dropdown");
+      document.addEventListener("DOMContentLoaded", function (event) {
+        console.log("все теги прогрузились");
       });
 
-      // 2. У элемента с классом btn необходимо убрать класс "btn-secondary", если он присутствует у этого элемента, либо добавить, если такого класса у элемента не было.
-      const btn = document.querySelector(".btn");
-      btn.classList.toggle("btn-secondary");
+      window.addEventListener("load", function (event) {
+        console.log("страница загрузилась");
+      });
 
-      // 3. Необходимо удалить класс "dropdown-menu" у элемента, у которого присутствует класс "menu".
+      document.body.addEventListener("click", function (event) {
+        let target = event.target;
+        let tag = target.tagName.toLowerCase();
+        let classExists = target.classList.contains("super_element");
+        if (classExists) {
+          console.log(
+            `Класс "super_element" присутствует в элементе "${tag}".`
+          );
+        } else {
+          console.log(`Класс "super_element" отсутствует в элементе "${tag}".`);
+        }
+      });
+
       document
-        .querySelector(".menu.dropdown-menu")
-        .classList.remove("dropdown-menu");
+        .querySelector("textarea")
+        .addEventListener("mouseenter", function (event) {
+          console.log("Вы навели на textarea.");
+        });
 
-      // 4. Используя метод insertAdjacentHTML добавьте после div'a с классом "dropdown" следующую разметку:
-      // `<a href="#">link</a>`
-      document
-        .querySelector(".dropdown")
-        .insertAdjacentHTML("afterend", '<a href="#">link</a>');
+      document.querySelector("ul").addEventListener("click", function (event) {
+        if (event.target.tagName.toLowerCase() === "button") {
+          console.log(event.target.textContent);
+        }
+      });
 
-      // 5. У элемента с id "dropdownMenuButton" замените id на "superDropdown".
-      document.querySelector("#dropdownMenuButton").id = "superDropdown";
-
-      // 6. Добавьте атрибут data-dd со значением 3 элементу у которого существует атрибут "aria-labelledby" равный "dropdownMenuButton" используя dataset.
-      document.querySelector(
-        "[aria-labelledby='dropdownMenuButton']"
-      ).dataset.dd = "3";
-
-      // 7. Удалите атрибут type у элемента с классом "dropdown-toggle".
-      document.querySelector(".dropdown-toggle").removeAttribute("type");
+      // Ответ на вопрос 6:
+      // Это происходит из-за всплытия событий в JavaScript. Когда вы кликаете по кнопке внутри <ul>,
+      // сначала срабатывает обработчик событий, назначенный на <ul> (так как он встречается первым в порядке всплытия),
+      // а затем срабатывает обработчик событий на <body>, который слушает все клики на странице.
+      // Поэтому сначала вы видите результат из обработчика событий для <ul>, а затем - из обработчика событий для <body>.
     </script>
   </body>
 </html>
