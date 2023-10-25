@@ -1,94 +1,46 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Тестовая страница</title>
+    <title>Vue Tasks</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <style>
-      li:nth-child(even) {
-        background-color: #cccccc; /* пример цвета */
+      button {
+        margin: 10px;
       }
     </style>
   </head>
   <body>
-    <p class="super_element">Привет</p>
-
-    <img src="https://placeimg.com/50/50/animals" alt="" />
-    <img src="https://placeimg.com/50/50/arch" alt="" />
-    <img src="https://placeimg.com/50/50/nature" alt="" />
-    <img src="https://placeimg.com/50/50/people" alt="" />
-    <img src="https://placeimg.com/50/50/tech" alt="" />
-    <img src="https://placeimg.com/50/50/tech/grayscale" alt="" />
-    <img src="https://placeimg.com/50/50/tech/sepia" alt="" />
-
-    <br />
-
-    <button>Кнопка</button>
-    <button class="super_element">Кнопка с классом btn</button>
-    <button>Кнопка</button>
-
-    <br />
-
-    <textarea></textarea>
-
-    <br />
-
-    <ul>
-      <li>
-        <button>Кнопка 1</button>
-      </li>
-      <li>
-        <button>Кнопка 2</button>
-      </li>
-      <li>
-        <button>Кнопка 3</button>
-      </li>
-      <li>
-        <button>Кнопка 4</button>
-      </li>
-    </ul>
+    <div id="app">
+      <button @click="reverseText">{{ buttonText }}</button>
+      <button @click="addElement">Добавить</button>
+      <ul>
+        <li v-for="(item, index) in list" @click="removeElement(index)">
+          {{ item }}
+        </li>
+      </ul>
+    </div>
 
     <script>
-      "use strict";
-
-      document.addEventListener("DOMContentLoaded", function (event) {
-        console.log("все теги прогрузились");
+      new Vue({
+        el: "#app",
+        data: {
+          buttonText: "Перевернуть",
+          list: [],
+        },
+        methods: {
+          reverseText() {
+            this.buttonText = this.buttonText.split("").reverse().join("");
+          },
+          addElement() {
+            this.list.push("Новый элемент списка");
+          },
+          removeElement(index) {
+            this.list.splice(index, 1);
+          },
+        },
       });
-
-      window.addEventListener("load", function (event) {
-        console.log("страница загрузилась");
-      });
-
-      document.body.addEventListener("click", function (event) {
-        let target = event.target;
-        let tag = target.tagName.toLowerCase();
-        let classExists = target.classList.contains("super_element");
-        if (classExists) {
-          console.log(
-            `Класс "super_element" присутствует в элементе "${tag}".`
-          );
-        } else {
-          console.log(`Класс "super_element" отсутствует в элементе "${tag}".`);
-        }
-      });
-
-      document
-        .querySelector("textarea")
-        .addEventListener("mouseenter", function (event) {
-          console.log("Вы навели на textarea.");
-        });
-
-      document.querySelector("ul").addEventListener("click", function (event) {
-        if (event.target.tagName.toLowerCase() === "button") {
-          console.log(event.target.textContent);
-        }
-      });
-
-      // Ответ на вопрос 6:
-      // Это происходит из-за всплытия событий в JavaScript. Когда вы кликаете по кнопке внутри <ul>,
-      // сначала срабатывает обработчик событий, назначенный на <ul> (так как он встречается первым в порядке всплытия),
-      // а затем срабатывает обработчик событий на <body>, который слушает все клики на странице.
-      // Поэтому сначала вы видите результат из обработчика событий для <ul>, а затем - из обработчика событий для <body>.
     </script>
   </body>
 </html>
